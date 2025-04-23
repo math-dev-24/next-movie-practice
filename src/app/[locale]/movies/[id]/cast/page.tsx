@@ -8,13 +8,13 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 3600;
 
 type Props = {
-    params: {
-        id: string;
-    }
+    params: Promise<{ id: string }>
 }
 
 const MoviePageById = async ({ params }: Props) => {
-    const creditsResponse = await getMovieByPath(`/movie/${params.id}/credits`);
+    const { id } = await params;
+
+    const creditsResponse = await getMovieByPath(`/movie/${id}/credits`);
 
     if (!creditsResponse) {
         return notFound();

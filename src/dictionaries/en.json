@@ -1,0 +1,30 @@
+{
+  "home": {
+    "popular": "Most popular:",
+    "genre": "Browse by genre:"
+  },
+  "header": {
+    "home": "Home",
+    "series": "Series",
+    "movies": "Movies",
+    "genres": "Genres"
+  },
+  "search": {
+    "label": "Search a movie...",
+    "placeholder": "Search a movie...",
+    "check": "film(s) found",
+    "no_result": "No results found!"
+  },
+  "filter" : {
+    "info": "Refine your search",
+    "date" : "Release date:",
+    "sort": "Sort by:",
+    "adult": "Include adult content:",
+    "button": "Search",
+    "from": "From",
+    "to": "To",
+    "sort_value": {
+
+    }
+  }
+}

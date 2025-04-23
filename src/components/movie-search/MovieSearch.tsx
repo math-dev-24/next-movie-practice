@@ -7,6 +7,7 @@ import { useDebouncedCallback } from "use-debounce";
 import MovieSearchResult from "@/components/movie-search/MovieSearchResult";
 import { useRouter } from "next/navigation";
 import "./movieSearch.css";
+import {Locale} from "@/types/locale";
 
 const SearchPortal = ({ children, onClose } : { children: React.ReactNode, onClose: () => void }) => {
     const [mounted, setMounted] = useState(false);
@@ -35,7 +36,8 @@ const SearchPortal = ({ children, onClose } : { children: React.ReactNode, onClo
     );
 };
 
-const MovieSearch = ({locale} : {locale: string}) => {
+
+const MovieSearch = ({locale, text} : {locale: Locale, text: {label: string, placeholder: string, check: string, no_result: string}}) => {
     const [moviesResults, setMoviesResults] = useState<Movie[]>([]);
     const [showResult, setShowResult] = useState(false);
     const [onLoading, setOnLoading] = useState(false);
@@ -77,7 +79,7 @@ const MovieSearch = ({locale} : {locale: string}) => {
             <div>
                 <input
                     type="text"
-                    placeholder="Rechercher un titre..."
+                    placeholder={text.label}
                     className="w-full outline-none rounded border border-slate-400 bg-white px-1"
                     onClick={handleOpenSearch}
                 />
@@ -89,7 +91,7 @@ const MovieSearch = ({locale} : {locale: string}) => {
                         type="text"
                         ref={searchInputRef}
                         id="search-input"
-                        placeholder="Rechercher un titre..."
+                        placeholder={text.placeholder}
                         className="h-full rounded w-full py-2 px-4 outline-none"
                         onChange={(e) => debounced(e.target.value)}
                         onFocus={() => setShowResult(true)}
@@ -99,6 +101,7 @@ const MovieSearch = ({locale} : {locale: string}) => {
                         moviesResults={moviesResults}
                         onLoading={onLoading}
                         onSelectMovie={onSelectMovie}
+                        text={text}
                     />
                 </SearchPortal>
             )}

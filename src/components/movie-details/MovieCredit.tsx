@@ -7,10 +7,11 @@ import {MovieCastingDetail} from "@/components/movie-casting/MovieCastingDetail"
 type Props = {
     movieId: number;
     limit?: number;
+    locale: string
 }
 
-const MovieCredit = async ({ movieId, limit = 10 }: Props) => {
-    const credits = await getMovieByPath(`/movie/${movieId}/credits`);
+const MovieCredit = async ({ movieId, limit = 10, locale }: Props) => {
+    const credits = await getMovieByPath(`/movie/${movieId}/credits`, [], locale);
 
     const filteredCast = credits.cast
         .filter((c: Casting) => c.profile_path)
@@ -28,7 +29,7 @@ const MovieCredit = async ({ movieId, limit = 10 }: Props) => {
 
                 {credits.cast.length > limit && (
                     <Link
-                        href={`/movies/${movieId}/cast`}
+                        href={`/${locale}/movies/${movieId}/cast`}
                         className="flex items-center justify-center w-[100px] h-full"
                     >
                         <div className="flex flex-col items-center justify-center p-4 rounded-lg bg-gray-800/30 hover:bg-gray-700/40 transition-colors h-full">

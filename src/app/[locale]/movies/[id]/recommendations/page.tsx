@@ -8,18 +8,17 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 3600;
 
 type Props = {
-    params: {
-        id: string;
-        locale: string
-    }
+    params: Promise<{ id: string, locale: string }>
 }
 
 const MoviePageById = async ({ params }: Props) => {
 
+    const { id, locale } = await params;
+
     const [movie, recommendationsData, genres] = await Promise.all([
-        getMovieByPath(`/movie/${params.id}`, [], params.locale),
-        getMovieByPath(`/movie/${params.id}/recommendations`, [], params.locale),
-        getMovieByPath(`/genre/movie/list`, [], params.locale)
+        getMovieByPath(`/movie/${id}`, [], locale),
+        getMovieByPath(`/movie/${id}/recommendations`, [], locale),
+        getMovieByPath(`/genre/movie/list`, [], locale)
     ]);
 
     if (!recommendationsData) {
@@ -45,6 +44,7 @@ const MoviePageById = async ({ params }: Props) => {
                                 movie={movie}
                                 key={movie.id}
                                 genres={genres.genres}
+                                locale={locale}
                             />
                         ))
                     }

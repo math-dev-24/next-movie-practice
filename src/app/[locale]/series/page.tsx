@@ -1,10 +1,16 @@
 import React from 'react';
 
+type Props = {
+    params: Promise<{ locale: string }>
+}
 
-const Series = () => {
+const Series = async ({ params } : Props) => {
+
+    const { locale } = await params;
+
     return (
         <div>
-            <h1>Series</h1>
+            <h1>Series - {locale}</h1>
         </div>
     )
 }

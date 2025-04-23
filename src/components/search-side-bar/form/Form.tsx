@@ -2,7 +2,20 @@
 import React from 'react';
 import { useRouter, usePathname } from "next/navigation";
 
-const Form = () => {
+type Props = {
+    locale: string,
+    text: {
+        info: string,
+        date: string,
+        sort: string,
+        adult: string,
+        button: string,
+        from: string,
+        to: string,
+    }
+}
+
+const Form = ({ locale, text }: Props) => {
     const router = useRouter();
     const pathname = usePathname();
 
@@ -22,10 +35,10 @@ const Form = () => {
         <form className="text-sm space-y-3 px-2" onSubmit={handleSubmit}>
             {/* Date de sortie */}
             <div className="border-b pb-2">
-                <h3 className="font-medium text-slate-700 mb-1.5">Date de sortie :</h3>
+                <h3 className="font-medium text-slate-700 mb-1.5">{text.date}</h3>
                 <div className="grid grid-cols-2 gap-2">
                     <div>
-                        <label htmlFor="from-date" className="text-xs text-slate-500 block mb-0.5">Du</label>
+                        <label htmlFor="from-date" className="text-xs text-slate-500 block mb-0.5">{text.from}</label>
                         <input
                             type="date"
                             name="from-date"
@@ -34,7 +47,7 @@ const Form = () => {
                         />
                     </div>
                     <div>
-                        <label htmlFor="to-date" className="text-xs text-slate-500 block mb-0.5">Au</label>
+                        <label htmlFor="to-date" className="text-xs text-slate-500 block mb-0.5">{text.to}</label>
                         <input
                             type="date"
                             name="to-date"
@@ -48,7 +61,7 @@ const Form = () => {
 
             {/* Trier par */}
             <div className="border-b pb-2">
-                <h3 className="font-medium text-slate-700 mb-1.5">Trier par</h3>
+                <h3 className="font-medium text-slate-700 mb-1.5">{text.sort}</h3>
                 <select
                     name="sort"
                     id="sort"
@@ -62,14 +75,14 @@ const Form = () => {
 
             {/* Contenus adultes */}
             <div className="border-b pb-2">
-                <h3 className="font-medium text-slate-700 mb-1.5">Inclure des contenus adultes</h3>
+                <h3 className="font-medium text-slate-700 mb-1.5">{text.adult}</h3>
                 <select
                     name="include-adult"
                     id="include-adult"
                     className="w-full py-1.5 px-2 border border-slate-200 rounded text-xs focus:outline-none focus:ring-1 focus:ring-blue-400"
                 >
-                    <option value="false">Non</option>
-                    <option value="true">Oui</option>
+                    <option value="false">{locale == "fr" ? 'Non' : 'No'}</option>
+                    <option value="true">{locale == "fr" ? 'Oui' : 'Yes'}</option>
                 </select>
             </div>
 
@@ -79,7 +92,7 @@ const Form = () => {
                 id="button-filter"
                 className="cursor-pointer w-full py-2 bg-emerald-600 text-white rounded-md hover:bg-emerald-700 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-1 mt-2 text-sm font-medium"
             >
-                Rechercher
+                {text.button}
             </button>
         </form>
     )

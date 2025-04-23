@@ -2,6 +2,8 @@ import Popular from "@/components/popular/Popular";
 import Genre from "@/components/genres/Genre";
 import {availableLocales} from "@/utils/i18n";
 import {Suspense} from "react";
+import Loader from "@/components/loader/Loader";
+import {Locale} from "@/types/locale";
 
 export const revalidate = 86400;
 
@@ -10,21 +12,19 @@ export function generateStaticParams() {
 }
 
 type Props = {
-    params: {
-        locale: string;
-    }
+    params: Promise<{ locale: Locale }>
 }
 
 export default async function Home({ params } : Props) {
-    const locale: string = await params.locale;
+    const { locale } = await params;
 
   return (
     <div>
-        <Suspense fallback={<div>Chargement...</div>}>
+        <Suspense fallback={<Loader />}>
             <Popular locale={locale} />
         </Suspense>
 
-        <Suspense fallback={<div>Chargement...</div>}>
+        <Suspense fallback={<Loader />}>
             <Genre locale={locale} />
         </Suspense>
     </div>

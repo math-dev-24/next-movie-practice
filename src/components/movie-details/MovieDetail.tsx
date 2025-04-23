@@ -6,8 +6,9 @@ import MovieCredit from "@/components/movie-details/MovieCredit";
 
 type Props = {
     movie: MovieDetails;
+    locale: string
 }
-const MovieDetail = ({movie}: Props) => {
+const MovieDetail = ({movie, locale}: Props) => {
 
     const formatDate = (dateString: string) => {
         const options: Intl.DateTimeFormatOptions = {day: 'numeric', month: 'long', year: 'numeric'};
@@ -99,7 +100,7 @@ const MovieDetail = ({movie}: Props) => {
                             <span className="flex flex-wrap gap-1 mt-1">
                                     {movie.genres.map(genre => (
                                         <Link
-                                            href={`/movies/genres/${genre.id}`}
+                                            href={`/${locale}/movies/genres/${genre.id}`}
                                             key={genre.id}
                                             className="px-2 py-1 bg-gray-100 text-xs rounded-full"
                                         >
@@ -182,7 +183,7 @@ const MovieDetail = ({movie}: Props) => {
                                 </div>
                             )}
                             <Suspense fallback={<div>Chargement...</div>}>
-                                <MovieCredit movieId={movie.id} />
+                                <MovieCredit movieId={movie.id} locale={locale} />
                             </Suspense>
                         </div>
                     </div>

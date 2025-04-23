@@ -2,18 +2,23 @@ import React from 'react';
 import Link from 'next/link';
 import MovieSearch from "@/components/movie-search/MovieSearch";
 import LanguageSelector from "@/components/language-selector/LanguageSelector";
+import {Locale} from "@/types/locale";
+import {getDictionaries} from "@/utils/dictionaries";
 
 type Props = {
-    locale: string
+    locale: Locale
 }
 
-const Header = ({locale}: Props) => {
+const Header = async ({locale}: Props) => {
+
+    const i18n = await getDictionaries(locale);
+
     return (
         <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-sm shadow-sm">
             <div className="container mx-auto px-4">
                 <div className="flex items-center h-16">
                     {/* Logo */}
-                    <Link href={`/${locale}`} className="flex items-center gap-1 hover:text-emerald-500 transition-all duration-150">
+                    <Link href={`/${locale}/`} className="flex items-center gap-1 hover:text-emerald-500 transition-all duration-150">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
                              viewBox="0 0 11 11">
                             <path
@@ -28,10 +33,10 @@ const Header = ({locale}: Props) => {
                         <ul className="flex items-center space-x-6">
                             <li>
                                 <Link
-                                    href={`/${locale}`}
+                                    href={`/${locale}/`}
                                     className="text-gray-600 hover:text-gray-900 hover:border-b-2 hover:border-emerald-500 transition-colors px-1 py-2"
                                 >
-                                    Accueil
+                                    {i18n.header.home}
                                 </Link>
                             </li>
                             <li>
@@ -39,7 +44,7 @@ const Header = ({locale}: Props) => {
                                     href={`/${locale}/series`}
                                     className="text-gray-600 hover:text-gray-900 hover:border-b-2 hover:border-emerald-500 transition-colors px-1 py-2"
                                 >
-                                    Séries
+                                    {i18n.header.series}
                                 </Link>
                             </li>
                             <li>
@@ -47,11 +52,11 @@ const Header = ({locale}: Props) => {
                                     href={`/${locale}/movies`}
                                     className="text-gray-600 hover:text-gray-900 hover:border-b-2 hover:border-emerald-500 transition-colors px-1 py-2"
                                 >
-                                    Films
+                                    {i18n.header.movies}
                                 </Link>
                             </li>
                             <li className="ml-4 w-56">
-                                <MovieSearch locale={locale} />
+                                <MovieSearch locale={locale} text={i18n.search} />
                             </li>
                             <li>
                                 <LanguageSelector />

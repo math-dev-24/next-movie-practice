@@ -2,6 +2,7 @@ import React from "react";
 import { getMovieByPath } from "@/utils/MovieClient";
 import { Movie } from "@/types/Movie";
 import MediaCard from "@/components/media-card/MediaCard";
+import Link from "next/link";
 
 type Props = {
     movieId: number;
@@ -31,18 +32,19 @@ const MovieSuggest = async ({ movieId, limit = 6, locale }: Props) => {
                         movie={movie}
                         key={movie.id}
                         genres={genres.genres}
+                        locale={locale}
                     />
                 ))}
             </div>
 
             {recommendations.length > limit && (
                 <div className="flex justify-center mt-6">
-                    <a
-                        href={`/movies/${movieId}/recommendations`}
+                    <Link
+                        href={`${locale}/movies/${movieId}/recommendations`}
                         className="text-sm bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors"
                     >
                         View All Recommendations
-                    </a>
+                    </Link>
                 </div>
             )}
         </div>

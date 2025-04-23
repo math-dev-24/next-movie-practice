@@ -3,23 +3,16 @@ import {Search} from "@/types/Search";
 import SearchResult from "@/app/[locale]/movies/(search)/SearchResult";
 
 type props = {
-    params: {
-        locale: string;
-    },
-    searchParams: {
-        [key: string]: string | string[] | undefined
-    }
+    params: Promise<{ locale: string }>,
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-const Movies = ({params, searchParams} : props) => {
+const Movies = async ({params, searchParams} : props) => {
 
-    const paramsFilter: Search = {
-        sort: searchParams.sort as string,
-        from_date: searchParams.from_date as string,
-        to_date: searchParams.to_date as string,
-    }
+    const { locale } = await params;
+    const paramsFilter: Search = await searchParams;
 
-    return <SearchResult searchParams={paramsFilter} locale={params.locale} />
+    return <SearchResult searchParams={paramsFilter} locale={locale} />
 }
 
 export default Movies;
