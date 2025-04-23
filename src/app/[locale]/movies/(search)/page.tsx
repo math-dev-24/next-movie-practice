@@ -1,26 +1,25 @@
 import React from 'react';
-import SearchResult from "@/app/movies/(search)/SearchResult";
 import {Search} from "@/types/Search";
+import SearchResult from "@/app/[locale]/movies/(search)/SearchResult";
 
 type props = {
     params: {
-        id: string;
+        locale: string;
     },
     searchParams: {
         [key: string]: string | string[] | undefined
     }
 }
 
-function GenrePageById ({ params, searchParams }: props) {
+const Movies = ({params, searchParams} : props) => {
 
-    const search: Search = {
-        genreId: params.id,
+    const paramsFilter: Search = {
         sort: searchParams.sort as string,
         from_date: searchParams.from_date as string,
         to_date: searchParams.to_date as string,
     }
 
-    return <SearchResult genreId={params.id} searchParams={search} />
+    return <SearchResult searchParams={paramsFilter} locale={params.locale} />
 }
 
-export default GenrePageById;
+export default Movies;

@@ -35,7 +35,7 @@ const SearchPortal = ({ children, onClose } : { children: React.ReactNode, onClo
     );
 };
 
-const MovieSearch = () => {
+const MovieSearch = ({locale} : {locale: string}) => {
     const [moviesResults, setMoviesResults] = useState<Movie[]>([]);
     const [showResult, setShowResult] = useState(false);
     const [onLoading, setOnLoading] = useState(false);
@@ -44,7 +44,7 @@ const MovieSearch = () => {
 
     const updateMovieSearch = async (value: string) => {
         setOnLoading(true);
-        const response = await fetch(`/api/movies/search?query=${value}`);
+        const response = await fetch(`/api/movies/search?query=${value}&locale=${locale}`);
         const { results } = await response.json();
 
         setMoviesResults(results.filter((movie: Movie) => movie.backdrop_path));
@@ -59,7 +59,7 @@ const MovieSearch = () => {
         if (searchInputRef.current) {
             searchInputRef.current.value = "";
         }
-        router.push(`/movies/${movie.id}`);
+        router.push(`/${locale}/movies/${movie.id}`);
     };
 
     const handleOpenSearch = () => {

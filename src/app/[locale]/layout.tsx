@@ -17,13 +17,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
                                        children,
+    params
                                    }: Readonly<{
     children: React.ReactNode;
+    params: {
+        locale: string;
+    }
 }>) {
     return (
-        <html lang="fr" className={roboto.className}>
+        <html lang={params.locale} className={roboto.className}>
         <body className="flex flex-col min-h-screen">
-        <Header/>
+        <Header locale={params.locale} />
         <main
             className="flex-1 container mx-auto border bg-white rounded-lg py-10 px-4 border-slate-300 drop-shadow-md mt-4">
             {children}

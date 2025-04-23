@@ -1,14 +1,19 @@
 import React from 'react';
 import Link from 'next/link';
 import MovieSearch from "@/components/movie-search/MovieSearch";
+import LanguageSelector from "@/components/language-selector/LanguageSelector";
 
-const Header = () => {
+type Props = {
+    locale: string
+}
+
+const Header = ({locale}: Props) => {
     return (
         <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-sm shadow-sm">
             <div className="container mx-auto px-4">
                 <div className="flex items-center h-16">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center gap-1 hover:text-emerald-500 transition-all duration-150">
+                    <Link href={`/${locale}`} className="flex items-center gap-1 hover:text-emerald-500 transition-all duration-150">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
                              viewBox="0 0 11 11">
                             <path
@@ -23,7 +28,7 @@ const Header = () => {
                         <ul className="flex items-center space-x-6">
                             <li>
                                 <Link
-                                    href="/"
+                                    href={`/${locale}`}
                                     className="text-gray-600 hover:text-gray-900 hover:border-b-2 hover:border-emerald-500 transition-colors px-1 py-2"
                                 >
                                     Accueil
@@ -31,7 +36,7 @@ const Header = () => {
                             </li>
                             <li>
                                 <Link
-                                    href="/series"
+                                    href={`/${locale}/series`}
                                     className="text-gray-600 hover:text-gray-900 hover:border-b-2 hover:border-emerald-500 transition-colors px-1 py-2"
                                 >
                                     Séries
@@ -39,14 +44,17 @@ const Header = () => {
                             </li>
                             <li>
                                 <Link
-                                    href="/movies"
+                                    href={`/${locale}/movies`}
                                     className="text-gray-600 hover:text-gray-900 hover:border-b-2 hover:border-emerald-500 transition-colors px-1 py-2"
                                 >
                                     Films
                                 </Link>
                             </li>
                             <li className="ml-4 w-56">
-                                <MovieSearch />
+                                <MovieSearch locale={locale} />
+                            </li>
+                            <li>
+                                <LanguageSelector />
                             </li>
                         </ul>
                     </nav>

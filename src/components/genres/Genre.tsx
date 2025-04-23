@@ -3,18 +3,23 @@ import { getMovieByPath } from "@/utils/MovieClient";
 import type { Genre as GenreType } from "@/types/Genre";
 import Link from "next/link";
 
-const Genre = async () => {
-    const { genres } = await getMovieByPath('/genre/movie/list');
+type Props = {
+    locale: string
+}
+
+const Genre = async ({locale}: Props) => {
+
+    const { genres } = await getMovieByPath('/genre/movie/list', [], locale);
 
     return (
         <div className="my-4 container mx-auto px-4">
-            <h1 className="text-2xl font-bold mb-3 text-gray-800">Parcourir par genre</h1>
+            <h1 className="text-2xl font-bold mb-3 text-gray-800">Parcourir par genre :</h1>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
                 {genres && genres.map((genre: GenreType) => (
                     <Link
                         key={genre.id}
-                        href={`/movies/genres/${genre.id}`}
+                        href={`/${locale}/movies/genres/${genre.id}`}
                         className="group"
                     >
                         <div className="flex items-center bg-white rounded-lg overflow-hidden shadow-sm hover:shadow transition-shadow duration-300 h-14">

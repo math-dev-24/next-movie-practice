@@ -6,25 +6,26 @@ import {Genre} from "@/types/Genre";
 
 type Props = {
     movie: Movie;
-    genres: Genre[];
+    genres: Genre[],
+    locale: string
 }
 
-const MediaCard = ({ movie, genres }: Props) => {
-    // Filtrer les genres pour n'obtenir que ceux qui correspondent au film
-    const movieGenres = genres.filter((genre: Genre) =>
+const MediaCard = ({ movie, genres, locale }: Props) => {
+
+    const movieGenres: Genre[] = genres.filter((genre: Genre) =>
         movie.genre_ids.includes(genre.id)
-    ).slice(0, 2); // Limiter à 2 genres maximum pour éviter l'encombrement
+    ).slice(0, 2);
 
     return (
         <Link
-            href={`/movies/${movie.id}`}
+            href={`/${locale}/movies/${movie.id}`}
             className="flex min-w-[200px] flex-col w-64 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 bg-white"
         >
             {/* Image du film avec overlay pour la note */}
             <div className="relative h-36">
                 {movie.backdrop_path ? (
                     <Image
-                        src={`${process.env.NEXT_PUBLIC_TMDB_IMAGE_BASE_PATH}${movie.backdrop_path}`}
+                        src={`${process.env.NEXT_PUBLIC_TMDB_IMAGE_BASE_PATH}/w500/${movie.backdrop_path}`}
                         alt={movie.title}
                         fill
                         sizes="256px"
@@ -40,6 +41,9 @@ const MediaCard = ({ movie, genres }: Props) => {
                 {/* Score du film */}
                 <div className="absolute top-2 right-2 bg-black bg-opacity-70 text-white text-sm font-medium rounded-full h-8 w-8 flex items-center justify-center">
                     {Math.round(movie.vote_average * 10) / 10}
+                </div>
+                <div className="min-w-2/5 opacity-50 absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-sm font-medium rounded-md h-8 w-8 flex items-center justify-center">
+                    {movie.vote_count} votes
                 </div>
             </div>
 
