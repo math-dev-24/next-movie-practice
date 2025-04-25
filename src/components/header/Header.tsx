@@ -4,6 +4,8 @@ import MovieSearch from "@/components/movie-search/MovieSearch";
 import LanguageSelector from "@/components/language-selector/LanguageSelector";
 import {Locale} from "@/types/locale";
 import {getDictionaries} from "@/utils/dictionaries";
+import {CircleUser} from "lucide-react";
+import AuthHeader from "@/components/auth-header/AuthHeader";
 
 type Props = {
     locale: Locale
@@ -33,34 +35,15 @@ const Header = async ({locale}: Props) => {
                         <ul className="flex items-center space-x-6">
                             <li>
                                 <Link
-                                    href={`/${locale}/`}
-                                    className="text-gray-600 hover:text-gray-900 hover:border-b-2 hover:border-emerald-500 transition-colors px-1 py-2"
-                                >
-                                    {i18n.header.home}
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    href={`/${locale}/series`}
-                                    className="text-gray-600 hover:text-gray-900 hover:border-b-2 hover:border-emerald-500 transition-colors px-1 py-2"
-                                >
-                                    {i18n.header.series}
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
                                     href={`/${locale}/movies`}
                                     className="text-gray-600 hover:text-gray-900 hover:border-b-2 hover:border-emerald-500 transition-colors px-1 py-2"
                                 >
                                     {i18n.header.movies}
                                 </Link>
                             </li>
-                            <li className="ml-4 w-56">
-                                <MovieSearch locale={locale} text={i18n.search} />
-                            </li>
-                            <li>
-                                <LanguageSelector />
-                            </li>
+                            <AuthHeader locale={locale} text={i18n.header} />
+                            <MovieSearch locale={locale} text={i18n.search} />
+                            <LanguageSelector />
                         </ul>
                     </nav>
                 </div>

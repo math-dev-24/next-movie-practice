@@ -4,6 +4,7 @@ import Header from "@/components/header/Header";
 import Footer from "@/components/footer/Footer";
 import "./globals.css";
 import {Locale} from "@/types/locale";
+import AuthProvider from "@/components/auth-provider/AuthProvider";
 
 
 const roboto = Roboto({
@@ -28,14 +29,17 @@ export default async function RootLayout({
 
     return (
         <html lang={locale} className={roboto.className}>
-        <body className="flex flex-col min-h-screen">
-        <Header locale={locale} />
-        <main
-            className="flex-1 container mx-auto border bg-white rounded-lg py-10 px-4 border-slate-300 drop-shadow-md mt-4">
-            {children}
-        </main>
-        <Footer/>
-        </body>
+            <body className="flex flex-col min-h-screen">
+            <AuthProvider>
+                <Header locale={locale} />
+                <main
+                    className="flex-1 container mx-auto border bg-white rounded-lg py-10 px-4 border-slate-300 drop-shadow-md mt-4"
+                >
+                     {children}
+                </main>
+                <Footer/>
+            </AuthProvider>
+            </body>
         </html>
     );
 }

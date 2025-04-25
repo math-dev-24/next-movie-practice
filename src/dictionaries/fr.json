@@ -7,7 +7,9 @@
     "home": "Accueil",
     "series": "Séries",
     "movies": "Films",
-    "genres": "Genres"
+    "genres": "Genres",
+    "signup": "S'inscrire",
+    "login": "Se connecter"
   },
   "search": {
     "label": "Rechercher un film...",

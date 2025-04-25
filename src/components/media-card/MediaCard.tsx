@@ -3,14 +3,16 @@ import Link from 'next/link';
 import Image from "next/image";
 import {Movie} from "@/types/Movie";
 import {Genre} from "@/types/Genre";
+import Like from "@/components/media-card/like/Like";
 
 type Props = {
     movie: Movie;
     genres: Genre[],
-    locale: string
+    locale: string,
+    liked: boolean
 }
 
-const MediaCard = ({ movie, genres, locale }: Props) => {
+const MediaCard = ({ movie, genres, locale, liked }: Props) => {
 
     const movieGenres: Genre[] = genres.filter((genre: Genre) =>
         movie.genre_ids.includes(genre.id)
@@ -44,6 +46,9 @@ const MediaCard = ({ movie, genres, locale }: Props) => {
                 </div>
                 <div className="min-w-2/5 opacity-50 absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-sm font-medium rounded-md h-8 w-8 flex items-center justify-center">
                     {movie.vote_count} votes
+                </div>
+                <div className="absolute top-1 left-1">
+                    <Like mediaId={movie.id} liked={liked}/>
                 </div>
             </div>
 

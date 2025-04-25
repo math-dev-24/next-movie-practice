@@ -6,14 +6,17 @@ import {getDictionaries} from "@/utils/dictionaries";
 import {Locale} from "@/types/locale";
 
 type Props = {
-    locale: Locale
+    locale: Locale,
+    moviesLiked: Movie[]
 }
 
-const Popular = async ({locale} : Props) => {
+const Popular = async ({locale, moviesLiked} : Props) => {
     const { results } = await getMovieByPath('movie/popular', [], locale);
     const { genres } = await getMovieByPath('/genre/movie/list', [], locale);
 
     const i18n = await getDictionaries(locale as Locale);
+
+    const isLiked = (movie: Movie) => moviesLiked.some((m: Movie) => m.id === movie.id);
 
     return (
         <div>
@@ -21,7 +24,7 @@ const Popular = async ({locale} : Props) => {
             <div className="flex w-full overflow-x-auto gap-2 py-2">
                 {
                     results &&
-                    results.map((m: Movie) => <MediaCard key={m.id} movie={m} genres={genres} locale={locale} />)
+                    results.map((m: Movie) => <MediaCard key={m.id} movie={m} genres={genres} locale={locale} liked={isLiked(m)} />)
                 }
             </div>
         </div>

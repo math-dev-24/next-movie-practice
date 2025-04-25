@@ -7,7 +7,9 @@
     "home": "Home",
     "series": "Series",
     "movies": "Movies",
-    "genres": "Genres"
+    "genres": "Genres",
+    "signup": "Sign up",
+    "login": "Login"
   },
   "search": {
     "label": "Search a movie...",

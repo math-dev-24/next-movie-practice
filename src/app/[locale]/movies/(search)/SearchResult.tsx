@@ -1,19 +1,26 @@
 import React, {Suspense} from 'react';
 import {Search} from "@/types/Search";
-import {getMovieByPath} from "@/utils/MovieClient";
+import {getLikedMovies, getMovieByPath} from "@/utils/MovieClient";
 import {Movie} from "@/types/Movie";
 import MediaCard from "@/components/media-card/MediaCard";
 import Loader from "@/components/loader/Loader";
+import {getServerSession} from "next-auth";
+import {Locale} from "@/types/locale";
 
 type props = {
     genreId?: string;
-    locale: string;
+    locale: Locale;
     searchParams: Search
 }
 
 const SearchResult = async ({ genreId, locale, searchParams }: props) => {
 
     const { genres } = await getMovieByPath('/genre/movie/list', [], locale);
+
+    // @ts-ignore
+    const { user: userSession } = await getServerSession();
+
+    const moviesLiked = await getLikedMovies(userSession.email, locale);
 
     const { results } = await getMovieByPath('discover/movie', [
         {key: 'sort_by', value: searchParams.sort || ""},
@@ -22,11 +29,15 @@ const SearchResult = async ({ genreId, locale, searchParams }: props) => {
         {key: 'with_genres', value: genreId || ""}
     ], locale);
 
+    const isLiked = (movie: Movie) => moviesLiked.some((m: Movie) => m.id === movie.id);
+
     return (
         <Suspense fallback={<Loader />}>
             {
                 results &&
-                results.filter((m: Movie) => m.backdrop_path).map((m: Movie) => <MediaCard key={m.id} movie={m} genres={genres} locale={locale} />)
+                results
+                    .filter((m: Movie) => m.backdrop_path)
+                    .map((m: Movie) => <MediaCard key={m.id} movie={m} genres={genres} locale={locale} liked={isLiked(m)} />)
             }
         </Suspense>
     )

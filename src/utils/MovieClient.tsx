@@ -1,4 +1,8 @@
 import "server-only";
+import {Locale} from "@/types/locale";
+import prisma from "@/utils/prisma";
+import {Movie} from "@/types/Movie";
+import {Like} from "@/types/Like";
 
 
 type Params = {
@@ -35,4 +39,31 @@ export const getMovieByPath = async (
     }
 
     return response.json();
+}
+
+export const getLikedMovies = async (email: string, language: Locale): Promise<Movie[]> => {
+    if (!email) return [];
+
+    const userData =  await prisma.user.findFirst({
+        where: { email },
+        include: {
+            likes: true
+        }
+    })
+    return userData ? await getHydratedMovies(userData.likes.map((like: Like) => like.movieId), language) : [];
+}
+
+export const getHydratedMovies = async (movieIds: number[], language: Locale) => {
+    const moviePromises = movieIds.map(
+        (movieId: number) => getMovieByPath(`/movie/${movieId}`, [], language),
+    )
+    return await Promise.all(moviePromises);
+}
+
+export const unLikeMovie = async (movieId: string) => {
+    const response = await fetch(`/api/like/${movieId}`, {
+        method: "POST",
+    })
+
+    return response.ok;
 }
